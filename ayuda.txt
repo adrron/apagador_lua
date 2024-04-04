@@ -1,0 +1,28 @@
+:./esptool.py --port /dev/ttyUSB1 --baud 115200 write_flash -fm dio -fs 32m 0x00000 ../nodemcu-master-10-modules-2017-10-02-05-43-41-float.bin 
+
+python ./esptool-master/esptool.py –port /dev/ttyUSB0 write_flash -fm dio -fs 32m 0x00000 esp_wifi_repeater-master/firmware/0x00000.bin 0x10000 esp_wifi_repeater-master/firmware/0x10000.bin
+
+
+To determine the capacity of the flash chip before a firmware is installed you can run
+
+esptool.py --port <serial-port> flash_id
+
+./esptool.py --port /dev/ttyUSB0 erase_flash
+
+
+./luatool.py --port /dev/ttyUSB0 --src init.lua --dest init.lua --verbose
+./luatool.py  --baud 115200 --port /dev/ttyUSB0 --src ../../apagador_lua_v2.0/rele_estado_solido/init_htmlmejorado29ago2021.lua --dest init.lua 
+
+2024 18 marzo:
+
+python3 ./esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash -fm dio --flash_size=detect 0x00000 ../Descargas/nodemcu-release-12-modules-2024-03-18-15-12-35-integer.bin
+
+./luatool.py --baud 115200 --port /dev/ttyUSB0 --src ~adrian/nodemcu/apagador_lua_v2.0/init_htmlmejorado17marzo2024.lua --dest init.lua --verbose
+
+pip install nodemcu-uploader
+
+~/.local/bin/nodemcu-uploader --port /dev/ttyUSB0 file list
+
+python3 ./esptool.py --port /dev/ttyUSB0 erase_flash
+
+screen /dev/ttyUSB0 115200
