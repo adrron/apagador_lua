@@ -4,7 +4,7 @@ leds=7
 min=''
 estado=gpio.LOW
 duration=500
-tiempoDeRetraso = 2000000  -- 1 segundo
+tiempoDeRetraso = 4000000  -- 1 segundo
 estadoFoco='OFF'
 
 -- wifi_config = dofile("eus_params.lua")
@@ -56,6 +56,7 @@ local function levantarEndUserSetup()
                 -- enduser_setup.manual(true)
                 enduser_setup.start("LamparaConfig",
                     function()
+                   
                         print("Configuración de red WiFi completada. Conectado a la red:", wifi.sta.getip())
                         ChecarPuerto80()
                     end,
@@ -225,24 +226,26 @@ end
 
 function ChecarPuerto80()
     print("Comprobando disponibilidad del puerto 80...")
-    local wifi_sta_connected = false 
+    local wifi_sta_connected = true 
     local temporizador = tmr.create()
     local function checkEnduserServer()
-      
-        if wifi.sta.getip() ~= nil and wifi.sta.getip() ~= false and  wifi_sta_connected ~= false then
+      print("checar80",wifi.sta.getip(),wifi.ap.getip(),wifi_sta_connected );
+        if wifi.sta.getip() ~= nil and wifi.sta.getip() ~= false and  wifi_sta_connected ~= false and wifi.ap.getip() == nil then
             print("El servidor enduser no está en ejecución. Iniciando tu propio servidor... ", wifi.sta.getip(),wifi_sta_connected)
             wifi_sta_connected = false
             startServer()
-           
+
         end
+
         if wifi.ap.getip() then
             print("El servidor enduser está en ejecución. No iniciar tu propio servidor. ",wifi.ap.getip())
             wifi_sta_connected = true
+    
         end
 
     end
 
-    temporizador:alarm(6500, tmr.ALARM_AUTO, function()
+    temporizador:alarm(3500, tmr.ALARM_AUTO, function()
         checkEnduserServer()
     end)
 end
